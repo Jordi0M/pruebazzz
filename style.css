@@ -68,3 +68,13 @@ body {
   height: 200px;
   clear: both;
 }
+
+.rotada {
+  transform: rotateY(360deg);
+}
+
+.cartita {
+  transition: transform 2s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}

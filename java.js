@@ -85,6 +85,7 @@
 
     function barajarTodas() {
         for ($i = 0; imagenes.length > $i; $i++){
+            darVuelta(imagenes[$i]);
             imagenes[$i].src = "images/black/black_back.png";
             imagenes[$i].setAttribute("vuelta","no");
         }
@@ -100,6 +101,7 @@
     function girarCarta(carta_selec, num_random) {
 
         sonidoVueltaCarta.play();
+        darVuelta(carta_selec);
 
         if (contador_img_salida_carta[img_carta_frontal[num_random]] < 2){
             //cambia la imagen de la carta:
@@ -117,6 +119,10 @@
         else{
             clickCarta(carta_selec);
         }
+    }
+
+    function darVuelta(carta) {
+        carta.classList.toggle('rotada');
     }
 
     function clickCarta(carta_selec) {
