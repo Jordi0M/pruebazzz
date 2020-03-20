@@ -1,3 +1,6 @@
+    // Audios
+    var sonidoVueltaCarta = new Audio('vueltaCarta.mp3');
+
     var contador_img_salida_carta =
         {
             "images/blue/blue1.png":0,
@@ -95,6 +98,8 @@
     }
 
     function girarCarta(carta_selec, num_random) {
+
+        sonidoVueltaCarta.play();
 
         if (contador_img_salida_carta[img_carta_frontal[num_random]] < 2){
             //cambia la imagen de la carta:
