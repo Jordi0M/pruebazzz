@@ -85,9 +85,11 @@
 
     function barajarTodas() {
         for ($i = 0; imagenes.length > $i; $i++){
-            darVuelta(imagenes[$i]);
-            imagenes[$i].src = "images/black/black_back.png";
-            imagenes[$i].setAttribute("vuelta","no");
+            if (imagenes[$i].getAttribute("vuelta") == "si"){
+                darVuelta(imagenes[$i]);
+                imagenes[$i].src = "images/black/black_back.png";
+                imagenes[$i].setAttribute("vuelta","no");
+                }
         }
 
         for (var img in contador_img_salida_carta){
