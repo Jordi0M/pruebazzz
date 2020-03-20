@@ -17,6 +17,8 @@
                 posicion_carta : key,
                 clase : clase_carta_rotada,
                 imagen : imagenes[key].getAttribute("src"),
+                contador_img_1 : contador_img_salida_carta,
+                contador_img_2 : contador_img_cartas_negras,
             };
             array_cartas_JSON.push(cartas_JSON);
         }
@@ -35,6 +37,8 @@
                         imagenes[key].classList.add(cartas_JSON[key]["clase"]);
                     }
                     imagenes[key].setAttribute("src", cartas_JSON[key]["imagen"]);
+                    contador_img_salida_carta = cartas_JSON[key]["contador_img_1"];
+                    contador_img_cartas_negras = cartas_JSON[key]["contador_img_2"];
                 }
             }
             //en caso de que no exista, la crea..
