@@ -1,5 +1,53 @@
     // Audios
-    var sonidoVueltaCarta = new Audio('vueltaCarta.mp3');
+    var sonido_vuelta_carta = new Audio('vueltaCarta.mp3');
+
+    //Local Storage (guardar en memoria del pc las cartas)
+    var array_cartas_JSON = [];
+
+    var imagenes = document.getElementsByClassName("cartita");
+
+    function funcLocalStorage() {
+        array_cartas_JSON = [];
+        for (key = 0; imagenes.length>key; key++) {
+            var clase_carta_rotada = "";
+            if (imagenes[key].classList.contains("rotada")){
+                clase_carta_rotada = "rotada";
+            }
+            var cartas_JSON = {
+                posicion_carta : key,
+                clase : clase_carta_rotada,
+                imagen : imagenes[key].getAttribute("src"),
+            };
+            array_cartas_JSON.push(cartas_JSON);
+        }
+        localStorage.local_imagenes = JSON.stringify(array_cartas_JSON);
+    }
+
+    //espera a que el html esté cargado
+    document.addEventListener("DOMContentLoaded", function(event) {
+        //comprueba si el localstorage es compatible con el navegador:
+        if (typeof(Storage) !== 'undefined') {
+            //comprueba si habia una sesion:
+            if (localStorage.local_imagenes) {
+                var cartas_JSON = JSON.parse(localStorage.local_imagenes);
+                for (key = 0; imagenes.length>key; key++) {
+                    if (cartas_JSON[key]["clase"]){
+                        imagenes[key].classList.add(cartas_JSON[key]["clase"]);
+                    }
+                    imagenes[key].setAttribute("src", cartas_JSON[key]["imagen"]);
+                }
+            }
+            //en caso de que no exista, la crea..
+            else{
+                funcLocalStorage();
+            }
+        } else {
+            // Código cuando Storage NO es compatible
+        }
+    });
+
+
+
 
     var contador_img_salida_carta =
         {
@@ -84,11 +132,10 @@
     var imagenes = document.getElementsByClassName("cartita");
 
     function barajarTodas() {
-        for ($i = 0; imagenes.length > $i; $i++){
-            if (imagenes[$i].getAttribute("vuelta") == "si"){
-                darVuelta(imagenes[$i]);
-                imagenes[$i].src = "images/black/black_back.png";
-                imagenes[$i].setAttribute("vuelta","no");
+        for (i = 0; imagenes.length > i; i++){
+            if (imagenes[i].classList.contains("rotada")){
+                darVuelta(imagenes[i]);
+                imagenes[i].src = "images/black/black_back.png";
                 }
         }
 
@@ -98,12 +145,12 @@
         for (var img in contador_img_cartas_negras){
             contador_img_cartas_negras[img] = 0;
         }
+        localStorage.clear();
     }
 
     function girarCarta(carta_selec, num_random) {
 
-        sonidoVueltaCarta.play();
-        darVuelta(carta_selec);
+        sonido_vuelta_carta.play();
 
         if (contador_img_salida_carta[img_carta_frontal[num_random]] < 2){
             //cambia la imagen de la carta:
@@ -111,12 +158,12 @@
             //suma las veces que ha salido la carta:
             contador_img_salida_carta[img_carta_frontal[num_random]] = contador_img_salida_carta[img_carta_frontal[num_random]]+1;
             //indicamos que ya ha dado la vuelta:
-            carta_selec.setAttribute("vuelta","si");
+            darVuelta(carta_selec);
         }
         else if (contador_img_cartas_negras[img_carta_frontal[num_random]] < 4){
             carta_selec.src = img_carta_frontal[num_random];
             contador_img_cartas_negras[img_carta_frontal[num_random]] = contador_img_cartas_negras[img_carta_frontal[num_random]]+1;
-            carta_selec.setAttribute("vuelta","si");
+            darVuelta(carta_selec);
         }
         else{
             clickCarta(carta_selec);
@@ -128,12 +175,12 @@
     }
 
     function clickCarta(carta_selec) {
-
-        if (carta_selec.getAttribute("vuelta") == "no"){
+        if (!carta_selec.classList.contains("rotada")){
 
             //crea un numero random del 0 al 35, que son las cartas que tenemos:
             var num_random = Math.floor(Math.random() * 35);
 
             girarCarta(carta_selec, num_random);
         }
+        funcLocalStorage();
     }
