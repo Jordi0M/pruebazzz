@@ -85,6 +85,13 @@
             imagenes[$i].src = "images/black/black_back.png";
             imagenes[$i].setAttribute("vuelta","no");
         }
+
+        for (var img in contador_img_salida_carta){
+            contador_img_salida_carta[img] = 0;
+        }
+        for (var img in contador_img_cartas_negras){
+            contador_img_cartas_negras[img] = 0;
+        }
     }
 
     function girarCarta(carta_selec, num_random) {
